@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.dataccess.LoginDataAccess;
 import model.entities.MessageException;
 import model.entities.User;
+import businesslayer.LoginBusiness;
 
 @SuppressWarnings("serial")
 public class LoginControl extends HttpServlet {
@@ -30,19 +31,14 @@ public class LoginControl extends HttpServlet {
 			String userName = request.getParameter("username");
 			String password = request.getParameter("password");
 			
-			if (userName.equals("")) {
-				throw new MessageException("Username not informed.");
-			} else if (password.equals("")) {
-				throw new MessageException("Password not informed.");
-			} 
+			boolean userVerified = LoginBusiness.verifyUser(userName, password);
 			
-			User user = new User(userName, password);
-				
-			if (!(new LoginDataAccess().verifyCredentials(user))) {
-				throw new MessageException("Incorrect credentials.");
-			} else {
+			if (userVerified){
 				request.setAttribute("Username", request.getParameter("username"));
 				address = "/view/LoginSuccessView.jsp";
+			}
+			else {
+				throw new MessageException("Incorrect credentials.");
 			}
 
 		} catch (MessageException e) {

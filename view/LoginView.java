@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import businesslayer.LoginBusiness;
 import model.dataccess.LoginDataAccess;
 import model.entities.MessageException;
 import model.entities.User;
@@ -91,19 +93,13 @@ public class LoginView extends JFrame implements ActionListener {
 				String userName = txtUserName.getText();
 				String password = txtPassword.getText();
 				
-				if (userName.equals("")) {
-					throw new MessageException("Username not informed.");
-				} else if (password.equals("")) {
-					throw new MessageException("Password not informed.");
-				} 
-				
-				User user = new User(userName, password);
-				
-				if (!(new LoginDataAccess().verifyCredentials(user))) {
-					throw new MessageException("Incorrect credentials.");
-				} else {
+				boolean userVerified = LoginBusiness.verifyUser(userName, password);
+				if (userVerified) {
 					new LoginSuccessView(txtUserName.getText());
 					dispose();
+				}
+				else {
+					throw new MessageException("Incorrect credentials.");
 				}
 				
 			} catch (MessageException e) {
