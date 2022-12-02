@@ -8,6 +8,9 @@ import java.sql.SQLException;
 public class LoginBusiness {
 	private static LoginBusiness instance;
 	
+	private String userName;
+	private String password;
+	
 	private LoginBusiness(){}
 	
 	public static LoginBusiness getInstance() {
