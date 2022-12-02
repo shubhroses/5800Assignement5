@@ -92,8 +92,10 @@ public class LoginView extends JFrame implements ActionListener {
 				
 				String userName = txtUserName.getText();
 				String password = txtPassword.getText();
+
+				LoginBusiness instance = LoginBusiness.getInstance();
+				boolean userVerified = instance.verifyUser(userName, password);
 				
-				boolean userVerified = LoginBusiness.verifyUser(userName, password);
 				if (userVerified) {
 					new LoginSuccessView(txtUserName.getText());
 					dispose();

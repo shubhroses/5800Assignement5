@@ -6,7 +6,16 @@ public class User {
 	
 	private String password;
 	
-	public User (String userName, String password) {
+	private static User instance;
+    
+    public static User getInstance(String userName, String password){
+        if (instance == null) {
+            instance = new User(userName, password);
+        }
+        return instance;
+    }
+	
+	private User (String userName, String password) {
 		this.userName = userName;
 		this.password = password;
 	}

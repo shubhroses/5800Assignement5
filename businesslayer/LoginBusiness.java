@@ -6,7 +6,18 @@ import model.entities.User;
 import java.sql.SQLException;
 
 public class LoginBusiness {
-	public static boolean verifyUser(String userName, String password) 
+	private static LoginBusiness instance;
+	
+	private LoginBusiness(){}
+	
+	public static LoginBusiness getInstance() {
+        if (instance == null) {
+            instance = new LoginBusiness();
+        }
+        return instance;
+    }
+	
+	public boolean verifyUser(String userName, String password) 
 			throws MessageException, SQLException, ClassNotFoundException{
 		if (userName.equals("")) {
 			throw new MessageException("Username not informed.");
@@ -14,9 +25,12 @@ public class LoginBusiness {
 			throw new MessageException("Password not informed.");
 		} 
 		
-		User user = new User(userName, password);
+		User user = User.getInstance(userName, password);
+		//User user = new User(userName, password);
+		
+		LoginDataAccess instance = LoginDataAccess.getInstance();
 			
-		if (!(new LoginDataAccess().verifyCredentials(user))) {
+		if (!(instance.verifyCredentials(user))) {
 			return false;
 		} 
 		return true;

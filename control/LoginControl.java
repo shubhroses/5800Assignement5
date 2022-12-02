@@ -31,7 +31,8 @@ public class LoginControl extends HttpServlet {
 			String userName = request.getParameter("username");
 			String password = request.getParameter("password");
 			
-			boolean userVerified = LoginBusiness.verifyUser(userName, password);
+			LoginBusiness instance = LoginBusiness.getInstance();
+			boolean userVerified = instance.verifyUser(userName, password);
 			
 			if (userVerified){
 				request.setAttribute("Username", request.getParameter("username"));
